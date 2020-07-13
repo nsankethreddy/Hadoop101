@@ -20,22 +20,22 @@ ratings = LOAD '/user/maria_dev/ml-100k/u.data' AS (userID:int, movieID:int, rat
 ```
 If the seperator is not \t (here it is a '|' symbol)[USING PigStorage]
 ```
-metadata = LOAD '/user/maria_dev/ml-100k/uitem' USING PigStorage('|') AS (movieID:int, movieTitle:chararray, releaseDate:chararray, videoRelease:chararray, imdbLink:chararray);
+metadata = LOAD '/user/maria_dev/ml-100k/u.item' USING PigStorage('|') AS (movieID:int, movieTitle:chararray, releaseDate:chararray, videoRealese:chararray, imdblink:chararray);
 ```
 To fix the date-time [FOREACH,GENERATE]
 ```
-nameLookup = FOREACH metadata GENERATE movieID, movieTitle, ToUnixTime(ToDate(releaseDate, 'dd-MM-yyy')) AS releaseTime;
+nameLookup = FOREACH metadata GENERATE movieID, movieTitle, ToUnixTime(ToDate(releaseDate, 'dd-MMM-yyyy')) AS releaseTime;
 ```
 [GROUP,BY,DUMP]
 It creates and returns a bag(a tupule of all the values that satisfy)
 ```
-ratingByMovie=GROUP ratings BY movieID;
+ratingsByMovie = GROUP ratings BY movieID;
 
 DUMP ratingsByMovie;
 ```
 [AVG]
 ```
-avgRatings = FOREACH ratingsByMovie GENERATE group AS movieID,AVG(ratings.rating) AS avgRating;
+avgRatings = FOREACH ratingsByMovie GENERATE group as movieID, AVG(ratings.rating) as avgRating;
 
 DUMP avgRatings;
 ```
@@ -46,7 +46,7 @@ DESCRIBE ratings
 ```
 [FILTER]
 ```
-goodmovies = FILTER avgRatings BY avgRatings > 4.0;
+goodmovies = FILTER avgRatings BY avgRating > 4.0;
 ```
 [JOIN,BY]
 ```
@@ -57,4 +57,22 @@ goodmoviesWithData = JOIN goodmovies BY movieID, nameLookup BY movieID;
 orderGoodmovies = ORDER goodmoviesWithData BY nameLookup::releaseTime;
 
 DUMP orderGoodmovies;
+```
+
+## Everything put together:
+- script1
+```
+ratings = LOAD '/user/maria_dev/ml-100k/u.data' AS (userID:int, movieID:int, rating:int, ratingTime:int);
+metadata = LOAD '/user/maria_dev/ml-100k/u.item' USING PigStorage('|')
+	AS (movieID:int, movieTitle:chararray, releaseDate:chararray, videoRealese:chararray, imdblink:chararray);
+   
+nameLookup = FOREACH metadata GENERATE movieID, movieTitle,
+	ToUnixTime(ToDate(releaseDate, 'dd-MMM-yyyy')) AS releaseTime;
+   
+ratingsByMovie = GROUP ratings BY movieID;
+avgRatings = FOREACH ratingsByMovie GENERATE group as movieID, AVG(ratings.rating) as avgRating;
+goodmovies = FILTER avgRatings BY avgRating > 4.0;
+goodmoviesWithData = JOIN goodmovies BY movieID, nameLookup BY movieID;
+ordergoodMovies = ORDER goodmoviesWithData BY nameLookup::releaseTime;
+DUMP ordergoodMovies;
 ```
