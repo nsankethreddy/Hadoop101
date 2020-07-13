@@ -16,11 +16,11 @@ Running Pig:
 ## Commands:
 Returns tupule of information[LOAD,AS]    
 ```
-ratings = LOAD '/user/maria_dev/ml-100k/u.data' AS (userID:int, movieID:int, rating:int, ratingTime:int)
+ratings = LOAD '/user/maria_dev/ml-100k/u.data' AS (userID:int, movieID:int, rating:int, ratingTime:int);
 ```
 If the seperator is not \t (here it is a '|' symbol)[USING PigStorage]
 ```
-metadata = LOAD 'user/maria_dev/ml-100k/uitem' USING PigStorage('|') AS (movieID:int, movieTitle:chararray, releaseDate:chararra, videoRelease:chararray, imdbLink:chararray);
+metadata = LOAD '/user/maria_dev/ml-100k/uitem' USING PigStorage('|') AS (movieID:int, movieTitle:chararray, releaseDate:chararray, videoRelease:chararray, imdbLink:chararray);
 ```
 To fix the date-time [FOREACH,GENERATE]
 ```
@@ -43,4 +43,18 @@ DUMP avgRatings;
 Gives table info
 ```
 DESCRIBE ratings
+```
+[FILTER]
+```
+goodmovies = FILTER avgRatings BY avgRatings > 4.0;
+```
+[JOIN,BY]
+```
+goodmoviesWithData = JOIN goodmovies BY movieID, nameLookup BY movieID;
+```
+[ORDER]
+```
+orderGoodmovies = ORDER goodmoviesWithData BY nameLookup::releaseTime;
+
+DUMP orderGoodmovies;
 ```
