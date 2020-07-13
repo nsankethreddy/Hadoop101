@@ -11,10 +11,13 @@ class RankMovies(MRJob):
         yield movieID, 1
 
     def reducer_count_movieIDs(self, key, values):
-        yield key, sum(values)
+        yield str(sum(values)).zfill(5), key
 
     def reducer_sort(self, key, values):
-        yield str(sum(values)).zfill(5), key
+        for value in values:
+            yield value, key
+            
+
 
 if __name__ == '__main__':
     RankMovies.run()
