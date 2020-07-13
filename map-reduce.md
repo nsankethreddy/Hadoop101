@@ -16,6 +16,7 @@ def reducer_count_ratings(self, key, values):
 
 ### Putting it all together:
 
+- RatingsBreakdown.py
 ```
 from mrjob.job import MRJob
 from mrjob.step import MRStep
@@ -34,3 +35,11 @@ class RatingsBreakdown(MRJob):
 if __name__ = '__main__':
     RatingsBreakdown.run()
 ```
+
+### Executing the scirpt:
+- Run locally
+    - python RatingsBreakdown.py <location for u.data>
+
+- Run with hadoop
+
+    -python RatingsBreakdown.py -r hadoop --hadoop-streaming-jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar <location for u.data>
