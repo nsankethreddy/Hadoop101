@@ -14,7 +14,7 @@ class RankMovies(MRJob):
         yield key, sum(values)
 
     def reducer_sort(self, key, values):
-        yield values, key
+        yield str(sum(values)).zfill(5), key
 
 if __name__ == '__main__':
     RankMovies.run()
