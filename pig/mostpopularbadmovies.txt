@@ -1,0 +1,22 @@
+ratings = LOAD '/user/maria_dev/ml-100k/u.data' AS (userID:int, movieID:int, rating:int, ratingTime:int);
+metadata = LOAD '/user/maria_dev/ml-100k/u.item' USING PigStorage('|')
+	AS (movieID:int, movieTitle:chararray, releaseDate:chararray, videoRealese:chararray, imdblink:chararray);
+
+compressedratings = FOREACH ratings GENERATE movieID, rating;
+nameLookup = FOREACH metadata GENERATE movieID, movieTitle;
+   
+ratingsByMovie = GROUP compressedratings BY movieID;
+avgRatings = FOREACH ratingsByMovie GENERATE group as movieID, AVG(ratings.rating) as avgRating;
+countRatings = FOREACH ratingsByMovie GENERATE group as movieID, count(ratings.rating) as countRatings;
+
+badmovies = FILTER avgRatings BY avgRating < 2.0;
+
+badmoviesWithData = JOIN badmovies BY movieID, nameLookup BY movieID;
+
+badMoviesWithDataAndCount = JOIN badmovies BY movieID, countRatings BY movieID;
+
+DUMP badMoviesWithDataAndCount;
+
+famousbadmovies = ORDER badmoviesWithData BY badMoviesWithDataAndCount::countRatings;
+
+DUMP famousbadmovies;
