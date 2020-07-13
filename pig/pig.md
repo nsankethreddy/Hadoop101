@@ -76,3 +76,22 @@ goodmoviesWithData = JOIN goodmovies BY movieID, nameLookup BY movieID;
 ordergoodMovies = ORDER goodmoviesWithData BY nameLookup::releaseTime;
 DUMP ordergoodMovies;
 ```
+
+## Extra pig commands:
+
+- STORE (opposite of load)
+```
+STORE result INTO 'result1' USING PigStorage(':'); 
+```
+- DISTINCT, MAPREDUCE, STREAM, SAMPLE
+- COGROUP(JOIN), GROUP, CROSS, CUBE
+- RANK, LIMIT
+- UNION, SPLIT
+- AVG, CONCAT, COUNT, MAX, MIN, SIZE, SUM
+- DESCRIBE, EXPLAIN, ILLUSTRATE
+
+## UDFs
+Written in java
+- REGISTER
+- DEFINE
+- IMPORT
