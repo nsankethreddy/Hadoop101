@@ -32,3 +32,67 @@ FROM topMovieIDs t JOIN names n ON t.movieID = n.movieID;
 ```
 DROP view topMovieIDs
 ```
+
+## More about Hive
+One of the basic concepts of hive is SCHEMA ON READ, this is what seperates it from the other traditional DBs.
+
+Hive maintains a "metastore" tha imparts a structure you define on the unstructured data that is stored on HDFS etc.
+
+For uploading the existing data in to the Hive Db
+```
+CREATE TABLE ratings(
+    userID INT,
+    movieID INT,
+    rating INT,
+    time INT)
+)
+ROW FORMAT DELIMTED FIELDS TERMININATED BY '\t'
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH '$(env:HOME)/ml-100k/u.data'
+OVERWRITE INTO TABLE ratings;
+```
+
+### Where is the data?
+- ``` LOAD DATA```
+    - Moves data from a distributed filesystem into Hive
+    - Hive Ownes that data (ie. if you drop a table it completely drops it)
+- ```LOAD DATA LOCAL```
+    - COPIES data from local filesystem into Hive
+    - Hive Ownes that data (ie. if you drop a table it completely drops it)
+- Managed vs. External tables
+    - Makes a copy of the data in the Hive file system and loses ownership(ie. if you drop the table the system only deletes the matadata and leaves the data as it is)
+    ```
+    CREATE EXTERNAL TABLE IF NOT EXISTS ratings(
+        userID INT,
+        movieID INT,
+        rating INT,
+        time INT)
+    ROW FORMAT DELIMTED FIELDS TERMININATED BY '\t'
+    LOCATION '/data/ml-100k/u.data';
+    ```
+### Partitioning 
+
+Its used for optimization (IF the query is related to only a part of data, we could partition the DB and then run queries on it)
+
+```
+CREATE TABLE customers(
+    name STRING,
+    address STRUCT<street:STRING, city:string,state:STRING, zip:INT>
+)
+PARTITIONED BY (country STRING);
+```
+This is going to result in the customers table to be broken like
+```
+.../customers/country=CA/..
+.../customers/country=CB/...
+...
+```
+
+### Ways to use hive
+- Interactive CLI by typing ```hive``` in the terminal
+- Run Saved query files like
+  ``` hive -f /path/queries.hql ```
+- Through ambari
+- JDBC/ODBC
+- Via Oozi
