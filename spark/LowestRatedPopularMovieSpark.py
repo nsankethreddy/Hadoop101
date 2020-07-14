@@ -35,11 +35,11 @@ if __name__ == "__main__":
     # Reduce to (movieID, (sumOfRatings, totalRatings))
     ratingTotalsAndCount = movieRatings.reduceByKey(lambda movie1, movie2: ( movie1[0] + movie2[0], movie1[1] + movie2[1] ) )
 
-    # Filter out movies rated 10 or fewer times
-    popularTotalsAndCount = ratingTotalsAndCount.filter(lambda x: x[1][1] > 10)
+    #For more than 10 reviews
+    popularRatings = ratingTotalsAndCount.filter(lambda movieID: movieID[1][1] > 10 )
 
     # Map to (rating, averageRating)
-    averageRatings = popularTotalsAndCount.mapValues(lambda totalAndCount : totalAndCount[0] / totalAndCount[1])
+    averageRatings = popularRatings.mapValues(lambda totalAndCount : totalAndCount[0] / totalAndCount[1])
 
     # Sort by average rating
     sortedMovies = averageRatings.sortBy(lambda x: x[1])
