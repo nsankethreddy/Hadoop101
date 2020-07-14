@@ -15,5 +15,5 @@
 - OOZIE: A way of scheduling jobs on the cluster.
 - Zookeeper: A technology for coordinating everything on the cluster.
 - Data Ingestion:
-    - Scoop: used to connect your SQL DB or no sql DB or any local DB to HDFS
+    - Sqoop: used to connect your SQL DB or no sql DB or any local DB to HDFS
     - KAFKA: collects data of any form from a cluster of PCs or any form of webservers and broadcast that into the hadoop clusters
