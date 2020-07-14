@@ -14,3 +14,9 @@ Each executor(node) is respomsible for a executive process(task) and also mainta
 - Spark SQL
 - MLlib
 - GraphX
+
+
+### Executing spark scripts:
+```
+spark-submit <py file location>
+``` 
