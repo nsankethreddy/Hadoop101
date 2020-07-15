@@ -24,10 +24,23 @@ The queris are sent to the Region servers directly. And HMaster keeps all the me
 - Sparse data is A-OK - missing columns in a row consume no storage.
 
 ### Access HBase
-- HBase shell
+
+- hbase shell
 - Java API
     - Wrappers for python, scala, etc
 - Spark, Hive, Pig
 - REST service
 - Thrift service
 - Avro service
+
+### Integrating Pig with HBase  
+ 
+For moving the huge amount of data in the HDFS to HBase (Also can be done using import TSV)
+
+- Must create HBase table ahead of time
+- Your relation must have a unique key as its first columa, followed by subsequent columns as you want them saved in HBase.
+- USING clause allows you to STORE into an HBase table
+- Can work at scale - HBase in transactional on rows
+
+The code related to this is in ```hbase.pig```  
+Execute it in the hortonBox framework's shell with ```pig hbase.pig```
