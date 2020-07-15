@@ -23,3 +23,38 @@ Favours Consistency over availability.
 
 - But it still integrates with Hadoop, Spark and most languages.
 
+### Commands:
+
+- To import the data into the mongoDB using spark from HDFS
+
+```
+spark-submit --packages org.mogobd.spark:mongo-spark-cpnnector_2.11:2.4.2 MongoSpark.py
+```
+
+- To access the mongo shell
+```
+mongo
+```
+- Some Mongo shell commands:
+    - ```
+        use movielens
+      ```
+    - ```
+        db.users.find( {user_id:100} )
+      ```
+    - ```
+        db.users.explain().find( {user_id:100} )
+      ```
+        <i> .```explain``` command tells us what happens under the hood </i>
+    - ```
+        db.users.aggregate([{ $group: { _id: {occupation: "occupation"}, avgAge: {$avg: "$avg"}}}])
+      ```
+    - ```
+        db.users.count()
+      ```
+    - ```
+        db.getCollectionInfos()
+      ```
+    - ```
+        db.users.drop()
+      ```
