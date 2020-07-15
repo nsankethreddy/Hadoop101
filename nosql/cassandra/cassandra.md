@@ -32,5 +32,9 @@ You can specify the consistancy by telling that you would accept the output if 3
 
 If you really dont care about the consistancy you will accept the output that was first returned from the cluster. In this method the Availability is high but the consistancy is low
 
+- An other way to setup cassandra in the cluster
 
+![](../../media/cassandra_hadoop.png)
+
+In this way we could use one cassandra ring for accepting and working with online queries and the other one could be used to replicate the first ring and could be used for analytics
 
