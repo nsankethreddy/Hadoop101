@@ -11,3 +11,4 @@ Where Relational Database(RDBMS) cannot make the cut.
 
 Some examples for NOSQL
 - HBASE 
+- Cassandra
