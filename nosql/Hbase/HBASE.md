@@ -5,7 +5,7 @@ Built on HDFS (Built with Google's BigTable Architecture idea)
 There is no Query language, only CRUD APIs  
 - CRUD: Create, Read, Update, Delete
 
-![Hbase Architecture](../media/HBASE.png)
+![Hbase Architecture](../../media/HBASE.png)
 
 ### Architecture:
 
@@ -15,7 +15,7 @@ The queris are sent to the Region servers directly. And HMaster keeps all the me
 
 ### HBase data model
 
-![Hbase Example](../media/HBASE-example.png)
+![Hbase Example](../../media/HBASE-example.png)
 
 - A ROW is referenced by a unique KEY
 - Each ROW has some small number of COLUMN FAMILIES
