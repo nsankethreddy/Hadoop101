@@ -1,4 +1,5 @@
-# Hadoop Architecture
+# Hadoop Architecture 
+
 !["architecture"](./media/architecture.png)
 
 - HDFS(Hadoop distributed file systems): The file system
