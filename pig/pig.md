@@ -4,7 +4,7 @@ Pig is above Map-reduce and tez which are above YARN which is above HDFS.
 
 Pig introduces PigLatin, a scripting language that lets you use SQL-Like syntax to define your map and reduce steps. 
 
-Pig works better with tez and is much fater that map-reduce in terms of performance. 
+Pig works better with tez and is much faster that map-reduce in terms of performance. 
 
 Supports UDFs(User Defined functions)
 
