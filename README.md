@@ -2,7 +2,8 @@
 ------------------------
 
 
-This repo contains a some information about all the differnet softwares and architectures in the world of hadoop. 
+This repo contains some information about all the different software and architectures in the world of Hadoop.
+
 
 ![World of hadoop](./media/worldofhadoop.png)
 
